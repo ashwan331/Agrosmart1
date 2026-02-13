@@ -1,5 +1,5 @@
 // app.js
-import { db } from "./firebase.js";
+import { db } from "./js/firebase.js";
 import { ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const form = document.getElementById("cropForm");

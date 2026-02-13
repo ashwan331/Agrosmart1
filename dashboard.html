@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard</title>
+  <title>Agrosmart Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h2>Welcome to AGROSMART Dashboard</h2>
+<h2>Agrosmart Dashboard</h2>
 
-<ul>
-  <li>📷 AI Disease Detection</li>
-  <li>🚜 Equipment Rental</li>
-  <li>🛒 Digital Crop Market</li>
-  <li>📊 Smart Monitoring</li>
-</ul>
+<div class="card">
+  <h3>Add Crop Data</h3>
+  <input id="crop" placeholder="Crop Name">
+  <input id="moisture" placeholder="Soil Moisture">
+  <input id="temp" placeholder="Temperature">
+  <button onclick="saveData()">Save</button>
+</div>
 
-<button onclick="logout()">Logout</button>
+<div class="card">
+  <h3>Live Crop Data</h3>
+  <ul id="dataList"></ul>
+</div>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-<script src="app.js"></script>
+<script type="module" src="js/dashboard.js"></script>
 </body>
 </html>
