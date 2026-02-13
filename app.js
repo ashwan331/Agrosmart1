@@ -1,31 +1,34 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } 
-from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+// app.js
+import { db } from "./firebase.js";
+import { ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "PASTE_HERE",
-  authDomain: "PASTE_HERE",
-  projectId: "PASTE_HERE",
-  storageBucket: "PASTE_HERE",
-  messagingSenderId: "PASTE_HERE",
-  appId: "PASTE_HERE"
-};
+const form = document.getElementById("cropForm");
+const list = document.getElementById("cropList");
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+form.addEventListener("submit", e => {
+  e.preventDefault();
 
-window.register = function () {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => alert("Registered"))
-    .catch(err => alert(err.message));
-}
+  const crop = document.getElementById("crop").value;
+  const moisture = document.getElementById("moisture").value;
+  const temp = document.getElementById("temp").value;
 
-window.login = function () {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => window.location.href = "dashboard.html")
-    .catch(err => alert(err.message));
-}
+  push(ref(db, "crops"), {
+    crop,
+    moisture,
+    temp
+  });
 
-window.logout = function () {
-  signOut(auth).then(() => window.location.href = "index.html");
-}
+  form.reset();
+});
+
+onValue(ref(db, "crops"), snapshot => {
+  list.innerHTML = "";
+  snapshot.forEach(item => {
+    const d = item.val();
+    list.innerHTML += `
+      <li>
+        🌱 ${d.crop} | 💧 ${d.moisture}% | 🌡 ${d.temp}°C
+      </li>
+    `;
+  });
+});
